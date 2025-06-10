@@ -154,3 +154,172 @@ Feel free to customize the README file to include additional information, screen
 
 This updated README includes MySQL setup steps and a sample table structure for the "students" table in the MySQL database. You can further customize it as needed.
 
+🔹 1. Console-Based OOP (Java)
+✅ Features:
+Text-based input/output
+
+Ideal for learning logic and OOP concepts
+
+📄 File: ConsoleStudentManagement.java
+java
+Copy
+Edit
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    String id, name, grade;
+    
+    Student(String id, String name, String grade) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+    }
+
+    void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Grade: " + grade);
+    }
+}
+
+public class ConsoleStudentManagement {
+    static ArrayList<Student> students = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int choice;
+        do {
+            System.out.println("\n--- Student Management ---");
+            System.out.println("1. Add Student");
+            System.out.println("2. View Students");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    viewStudents();
+                    break;
+                case 3:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+            }
+        } while (choice != 3);
+    }
+
+    static void addStudent() {
+        System.out.print("Enter Student ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter Student Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Student Grade: ");
+        String grade = scanner.nextLine();
+        students.add(new Student(id, name, grade));
+        System.out.println("Student added successfully.");
+    }
+
+    static void viewStudents() {
+        System.out.println("\nList of Students:");
+        for (Student s : students) {
+            s.display();
+        }
+    }
+}
+🔹 2. GUI-Based OOP (Java Swing)
+✅ Features:
+Uses JFrame, JButton, JTextField, etc.
+
+Better user interaction via graphical elements
+
+📄 File: GUIStudentManagement.java
+java
+Copy
+Edit
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+class GUIStudent {
+    String id, name, grade;
+
+    GUIStudent(String id, String name, String grade) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+    }
+
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Grade: " + grade;
+    }
+}
+
+public class GUIStudentManagement extends JFrame implements ActionListener {
+    JTextField idField, nameField, gradeField;
+    JButton addButton, showButton;
+    JTextArea displayArea;
+    ArrayList<GUIStudent> studentList = new ArrayList<>();
+
+    public GUIStudentManagement() {
+        setTitle("GUI Student Management");
+        setSize(400, 400);
+        setLayout(new FlowLayout());
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        add(new JLabel("Student ID:"));
+        idField = new JTextField(20);
+        add(idField);
+
+        add(new JLabel("Student Name:"));
+        nameField = new JTextField(20);
+        add(nameField);
+
+        add(new JLabel("Student Grade:"));
+        gradeField = new JTextField(20);
+        add(gradeField);
+
+        addButton = new JButton("Add Student");
+        showButton = new JButton("Show Students");
+        add(addButton);
+        add(showButton);
+
+        displayArea = new JTextArea(10, 30);
+        add(new JScrollPane(displayArea));
+
+        addButton.addActionListener(this);
+        showButton.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addButton) {
+            String id = idField.getText();
+            String name = nameField.getText();
+            String grade = gradeField.getText();
+            studentList.add(new GUIStudent(id, name, grade));
+            displayArea.setText("Student added successfully.");
+            idField.setText(""); nameField.setText(""); gradeField.setText("");
+        }
+
+        if (e.getSource() == showButton) {
+            displayArea.setText("");
+            for (GUIStudent s : studentList) {
+                displayArea.append(s + "\n");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GUIStudentManagement().setVisible(true));
+    }
+}
+🔍 Difference Between Console and GUI OOP in Java:
+Feature	Console-Based	GUI-Based (Swing)
+Interface	Text-based	Graphical (buttons, text fields, etc.)
+Interaction	Sequential input	Event-driven (button clicks, etc.)
+Learning Focus	Good for OOP basics and logic	Good for real-world apps and UI design
+Dependencies	No extra libraries	Requires javax.swing and AWT
